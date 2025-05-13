@@ -11,15 +11,15 @@ Sistema para controle de alimentos com registro de validade, local de armazename
 ## 🚀 Como rodar o projeto
 
 1. Clone o repositório:
-```bash
-git clone https://github.com/SEU_USUARIO/controle-alimentos.git
+
+    git clone https://github.com/SEU_USUARIO/controle-alimentos.git
 
 2. Instale as dependências:
-```bash
+
     npm install
 
 3. Rode o servidor local:
-```bash
+
     npm run dev
 
 # 📅 Entrega final: 27/06/2025
