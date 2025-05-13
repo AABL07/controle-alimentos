@@ -15,9 +15,11 @@ Sistema para controle de alimentos com registro de validade, local de armazename
 git clone https://github.com/SEU_USUARIO/controle-alimentos.git
 
 2. Instale as dependências:
+```bash
     npm install
 
 3. Rode o servidor local:
+```bash
     npm run dev
 
 # 📅 Entrega final: 27/06/2025
