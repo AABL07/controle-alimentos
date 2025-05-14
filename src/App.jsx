@@ -2,6 +2,9 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { useEffect } from 'react'
+import { supabase } from './lib/supabase'
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -31,5 +34,15 @@ function App() {
     </>
   )
 }
+useEffect(() => {
+  const testarConexao = async () => {
+    const { data, error } = await supabase.from('alimentos').select('*')
+    console.log('Dados:', data)
+    console.log('Erro:', error)
+  }
+
+  testarConexao()
+}, [])
+
 
 export default App
