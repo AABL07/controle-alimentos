@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
+import CadastroAlimento from './components/CadastroAlimento'
+
+
 
 export default function CadastroAlimento() {
   const [nome, setNome] = useState('')
