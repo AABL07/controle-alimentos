@@ -33,12 +33,26 @@ export default function ListaAlimentos() {
         <p>Nenhum alimento cadastrado.</p>
       ) : (
         <ul>
-          {alimentos.map((alimento) => (
-            <li key={alimento.id}>
-              <strong>{alimento.nome}</strong> — vence em{' '}
-              {new Date(alimento.validade).toLocaleDateString()} ({alimento.local})
-            </li>
-          ))}
+          {alimentos.map((alimento) => {
+            const hoje = new Date()
+            const validade = new Date(alimento.validade)
+            const diasRestantes = Math.ceil((validade - hoje) / (1000 * 60 * 60 * 24))
+
+            let estilo = {}
+            if (diasRestantes < 0) {
+                estilo = { color: 'red' } // Vencido
+            } else if (diasRestantes <= 3) {
+                estilo = { color: 'orange' } // Vencendo em breve
+  }
+
+            return (
+             <li key={alimento.id} style={estilo}>
+                <strong>{alimento.nome}</strong> — vence em{' '}
+                {validade.toLocaleDateString()} ({alimento.local})
+             </li>
+  )
+})}
+
         </ul>
       )}
     </div>
