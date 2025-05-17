@@ -44,7 +44,21 @@ export default function ListaAlimentos() {
             } else if (diasRestantes <= 3) {
                 estilo = { color: 'orange' } // Vencendo em breve
   }
+            const excluirAlimento = async () => {
+             const { error } = await supabase
+                .from('alimentos')
+                .delete()
+                .eq('id', alimento.id)
 
+            if (error) {
+                console.error('Erro ao excluir:', error)
+            } else {
+             // Remove da lista sem recarregar
+             setAlimentos((prev) => prev.filter((a) => a.id !== alimento.id))
+    
+  }
+            }
+        
             return (
              <li key={alimento.id} style={estilo}>
                 <strong>{alimento.nome}</strong> — vence em{' '}
