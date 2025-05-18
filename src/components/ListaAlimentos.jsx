@@ -90,10 +90,16 @@ const salvarEdicao = async (id) => {
         <p>Nenhum alimento cadastrado.</p>
       ) : (
         <ul>
-          {alimentos.map((alimento) => {
-            const hoje = new Date()
-            const validade = new Date(alimento.validade)
-            const diasRestantes = Math.ceil((validade - hoje) / (1000 * 60 * 60 * 24))
+         {alimentos
+    .filter((alimento) => {
+      const nomeIncluiBusca = alimento.nome.toLowerCase().includes(busca.toLowerCase())
+      const localBate = filtroLocal === '' || alimento.local === filtroLocal
+      return nomeIncluiBusca && localBate
+    })
+    .map((alimento) => {
+      const hoje = new Date()
+      const validade = new Date(alimento.validade)
+      const diasRestantes = Math.ceil((validade - hoje) / (1000 * 60 * 60 * 24))
 
             let estilo = {}
             if (diasRestantes < 0) {
