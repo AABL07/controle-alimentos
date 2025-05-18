@@ -4,11 +4,17 @@ import CadastroAlimento from './components/CadastroAlimento'
 import ListaAlimentos from './components/ListaAlimentos'
 import './App.css'
 
-const [temaEscuro, setTemaEscuro] = useState(false)
+const [temaEscuro, setTemaEscuro] = useState(() => {
+  const salvo = localStorage.getItem('tema')
+  return salvo === 'dark'
+})
 
 useEffect(() => {
-  document.body.className = temaEscuro ? 'dark' : 'light'
+  const tema = temaEscuro ? 'dark' : 'light'
+  document.body.className = tema
+  localStorage.setItem('tema', tema)
 }, [temaEscuro])
+
 
 
 function App() {
