@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { supabase } from './lib/supabase'
 import CadastroAlimento from './components/CadastroAlimento'
 import ListaAlimentos from './components/ListaAlimentos'
+import './App.css'
+
 
 function App() {
   const [count, setCount] = useState(0)
