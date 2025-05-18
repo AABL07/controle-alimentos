@@ -157,5 +157,4 @@ const salvarEdicao = async (id) => {
         </ul>
       )}
     </div>
-  )
-}
+  
