@@ -60,6 +60,28 @@ const salvarEdicao = async (id) => {
 
 
   return (
+    <div style={{ marginBottom: '20px' }}>
+  <input
+    type="text"
+    placeholder="Buscar por nome..."
+    value={busca}
+    onChange={(e) => setBusca(e.target.value)}
+    style={{ marginRight: '10px', padding: '6px' }}
+  />
+
+  <select
+    value={filtroLocal}
+    onChange={(e) => setFiltroLocal(e.target.value)}
+    style={{ padding: '6px' }}
+  >
+    <option value="">Todos os locais</option>
+    <option value="Geladeira">Geladeira</option>
+    <option value="Freezer">Freezer</option>
+    <option value="Armário">Armário</option>
+  </select>
+</div>
+  )}
+
     <div style={{ marginTop: '40px' }}>
       <h2>Lista de Alimentos</h2>
       {carregando ? (
