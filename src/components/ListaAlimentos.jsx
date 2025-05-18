@@ -4,6 +4,8 @@ import { supabase } from '../lib/supabase'
 export default function ListaAlimentos() {
   const [alimentos, setAlimentos] = useState([])
   const [carregando, setCarregando] = useState(true)
+  const [busca, setBusca] = useState('')
+  const [filtroLocal, setFiltroLocal] = useState('')
   const [editandoId, setEditandoId] = useState(null)
   const [editForm, setEditForm] = useState({
   nome: '',
