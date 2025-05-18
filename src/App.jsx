@@ -33,9 +33,10 @@ function App() {
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial' }}>
       <h1>Controle de Alimentos</h1>
-      <button onClick={() => setTemaEscuro(!temaEscuro)}>
-  Mudar para tema {temaEscuro ? 'claro' : 'escuro'}
+      <button onClick={() => setTemaEscuro(!temaEscuro)} style={{ marginBottom: '20px' }}>
+  {temaEscuro ? '☀️ Tema claro' : '🌙 Tema escuro'}
 </button>
+
 
       <CadastroAlimento />
       <ListaAlimentos />
