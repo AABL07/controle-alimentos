@@ -4,6 +4,12 @@ import CadastroAlimento from './components/CadastroAlimento'
 import ListaAlimentos from './components/ListaAlimentos'
 import './App.css'
 
+const [temaEscuro, setTemaEscuro] = useState(false)
+
+useEffect(() => {
+  document.body.className = temaEscuro ? 'dark' : 'light'
+}, [temaEscuro])
+
 
 function App() {
   const [count, setCount] = useState(0)
