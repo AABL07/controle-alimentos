@@ -1,3 +1,4 @@
+/* Define as cores e estilos para o modo claro */
 body.light {
   --bg-color: #f9f9f9;
   --text-color: #333;
@@ -8,6 +9,7 @@ body.light {
   --button-hover: #0056b3;
 }
 
+/* Define as cores e estilos para o modo escuro */
 body.dark {
   --bg-color: #121212;
   --text-color: #f1f1f1;
@@ -18,36 +20,42 @@ body.dark {
   --button-hover: #3a8bff;
 }
 
+/* Estilo base do corpo da página, usando as variáveis de tema */
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 2rem;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease; /* Suaviza a troca de tema */
 }
 
+/* Estilo dos formulários e itens da lista (li) */
 form, li {
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   color: var(--text-color);
 }
 
+/* Estilo dos botões (tema dinâmico) */
 button {
   background-color: var(--button-bg);
   color: var(--button-text);
 }
 
+/* Efeito hover nos botões */
 button:hover {
   background-color: var(--button-hover);
 }
 
+/* Estilo da lista de alimentos (ul) */
 ul {
   list-style: none;
   padding: 0;
   max-width: 600px;
 }
 
+/* Estilo de cada item da lista (li) */
 li {
   background: white;
   padding: 1rem;
@@ -60,10 +68,12 @@ li {
   flex-wrap: wrap;
 }
 
+/* Flexibilidade para textos e campos dentro da lista */
 li div, li strong {
   flex: 1 1 auto;
 }
 
+/* Ajuste de tamanho e margem dos botões dentro da lista */
 li button {
   width: auto;
   margin-left: 10px;
