@@ -1,8 +1,10 @@
 :root {
+  /* Configuração de fonte padrão e renderização de texto */
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
+  /* Suporte para temas claro e escuro baseados no sistema operacional */
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
@@ -13,6 +15,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Estilo padrão para links */
 a {
   font-weight: 500;
   color: #646cff;
@@ -22,19 +25,22 @@ a:hover {
   color: #535bf2;
 }
 
+/* Estilo base do body */
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  place-items: center; /* Centraliza verticalmente o conteúdo */
   min-width: 320px;
   min-height: 100vh;
 }
 
+/* Estilo para título h1 */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
+/* Estilo base para botões */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -46,14 +52,19 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
+/* Estilo ao passar o mouse sobre o botão */
 button:hover {
   border-color: #646cff;
 }
+
+/* Estilo para foco acessível */
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Tema claro: sobrescreve cores quando o sistema do usuário estiver em modo claro */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
