@@ -1,27 +1,39 @@
+// Importa o hook useState do React para manipular estados locais
 import { useState } from 'react'
+
+// Importa a configuração do cliente Supabase (conexão com o banco de dados)
 import { supabase } from '../lib/supabase'
-import CadastroAlimento from './components/CadastroAlimento'
 
-
-
+// Define o componente CadastroAlimento
 export default function CadastroAlimento() {
+  // Estados para armazenar os valores dos campos do formulário
   const [nome, setNome] = useState('')
   const [validade, setValidade] = useState('')
   const [local, setLocal] = useState('')
-  const [mensagem, setMensagem] = useState('')
+  const [mensagem, setMensagem] = useState('')  // Estado para mensagens de sucesso ou erro
 
+  // Função que será executada ao enviar o formulário
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault()  // Evita o recarregamento da página ao enviar o form
 
-    const { data, error } = await supabase.from('alimentos').insert([
+    // Validação simples para evitar envio de campos vazios ou apenas com espaços
+    if (!nome.trim() || !local.trim() || !validade) {
+      setMensagem('Por favor, preencha todos os campos corretamente.')
+      return
+    }
+
+    // Insere os dados na tabela "alimentos" no Supabase
+    const { error } = await supabase.from('alimentos').insert([
       { nome, validade, local }
     ])
 
+    // Tratamento de erros
     if (error) {
-      console.error(error)
-      setMensagem('Erro ao cadastrar alimento.')
+      console.error(error)  // Exibe o erro no console do navegador
+      setMensagem(`Erro: ${error.message}`)  // Mostra a mensagem de erro ao usuário
     } else {
-      setMensagem('Alimento cadastrado com sucesso!')
+      setMensagem('Alimento cadastrado com sucesso!')  // Mensagem de sucesso
+      // Limpa os campos do formulário
       setNome('')
       setValidade('')
       setLocal('')
@@ -31,7 +43,10 @@ export default function CadastroAlimento() {
   return (
     <div>
       <h2>Cadastrar Alimento</h2>
+
+      {/* Formulário de cadastro */}
       <form onSubmit={handleSubmit}>
+        {/* Campo: Nome do alimento */}
         <input
           type="text"
           placeholder="Nome do alimento"
@@ -40,6 +55,7 @@ export default function CadastroAlimento() {
           required
         /><br />
 
+        {/* Campo: Data de validade */}
         <input
           type="date"
           value={validade}
@@ -47,6 +63,7 @@ export default function CadastroAlimento() {
           required
         /><br />
 
+        {/* Campo: Local de armazenamento */}
         <input
           type="text"
           placeholder="Local (ex: Geladeira)"
@@ -55,10 +72,16 @@ export default function CadastroAlimento() {
           required
         /><br />
 
+        {/* Botão de envio */}
         <button type="submit">Cadastrar</button>
       </form>
 
-      {mensagem && <p>{mensagem}</p>}
+      {/* Exibe a mensagem de sucesso ou erro, com cor condicional */}
+      {mensagem && (
+        <p style={{ color: mensagem.startsWith('Erro') ? 'red' : 'green' }}>
+          {mensagem}
+        </p>
+      )}
     </div>
   )
 }
