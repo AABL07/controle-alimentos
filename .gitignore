@@ -1,23 +1,23 @@
-# dependências
+# Ignora a pasta de dependências
 /node_modules
 
-# build
+# Ignora a build de produção gerada pelo Vite
 /dist
 
-# arquivos do sistema
-.DS_Store
-Thumbs.db
+# Arquivos ocultos de sistemas operacionais
+.DS_Store        # MacOS
+Thumbs.db        # Windows
 
-# ambiente
+# Arquivos de ambiente (contêm chaves secretas, como o Supabase)
 .env
 .env.local
 .env.*.local
 
-# logs
+# Logs de erros do npm/yarn
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# editor
+# Configurações de IDEs/editores (ex: VS Code, WebStorm, etc.)
 .vscode
 .idea/
