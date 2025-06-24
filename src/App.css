@@ -1,4 +1,4 @@
-/* Define as cores e estilos para o modo claro */
+/* Temas Light e Dark usando variáveis */
 body.light {
   --bg-color: #f9f9f9;
   --text-color: #333;
@@ -9,7 +9,6 @@ body.light {
   --button-hover: #0056b3;
 }
 
-/* Define as cores e estilos para o modo escuro */
 body.dark {
   --bg-color: #121212;
   --text-color: #f1f1f1;
@@ -20,70 +19,26 @@ body.dark {
   --button-hover: #3a8bff;
 }
 
-/* Estilo base do corpo da página, usando as variáveis de tema */
+/* Centralização total da página */
 body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  min-height: 100vh;
+  margin: 0;
+  padding: 2rem;
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 2rem;
-  transition: all 0.3s ease; /* Suaviza a troca de tema */
+  transition: all 0.3s ease;
 }
 
-/* Estilo dos formulários e itens da lista (li) */
-form, li {
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  color: var(--text-color);
-}
-
-/* Estilo dos botões (tema dinâmico) */
-button {
-  background-color: var(--button-bg);
-  color: var(--button-text);
-}
-
-/* Efeito hover nos botões */
-button:hover {
-  background-color: var(--button-hover);
-}
-
-/* Estilo da lista de alimentos (ul) */
-ul {
-  list-style: none;
-  padding: 0;
-  max-width: 600px;
-}
-
-/* Estilo de cada item da lista (li) */
-li {
-  background: white;
-  padding: 1rem;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-/* Flexibilidade para textos e campos dentro da lista */
-li div, li strong {
-  flex: 1 1 auto;
-}
-
-/* Ajuste de tamanho e margem dos botões dentro da lista */
-li button {
-  width: auto;
-  margin-left: 10px;
-  padding: 6px 12px;
-}
-/* Centralizar conteúdo */
-body {
+/* Limitar largura geral */
+#root {
+  width: 100%;
   max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
 }
 
 /* Títulos */
@@ -92,7 +47,7 @@ h1, h2 {
   margin-bottom: 20px;
 }
 
-/* Estilo geral dos formulários */
+/* Formulário com espaçamento, sombra e arredondamento */
 form {
   display: flex;
   flex-direction: column;
@@ -100,14 +55,18 @@ form {
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
 }
 
-/* Inputs */
+/* Inputs e selects */
 input, select {
   padding: 10px;
   border-radius: 6px;
   border: 1px solid var(--border-color);
   font-size: 1rem;
+  background-color: var(--card-bg);
+  color: var(--text-color);
 }
 
 /* Botões */
@@ -117,30 +76,46 @@ button {
   font-weight: bold;
   border: none;
   cursor: pointer;
+  background-color: var(--button-bg);
+  color: var(--button-text);
   transition: background-color 0.3s, color 0.3s;
 }
 
 button:hover {
-  opacity: 0.9;
+  background-color: var(--button-hover);
 }
 
 /* Lista de alimentos */
 ul {
-  padding: 0;
   list-style: none;
+  padding: 0;
+  margin-top: 20px;
 }
 
 li {
   padding: 12px;
   margin-bottom: 10px;
   border-radius: 6px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
-/* Área de busca/filtros */
+li div, li strong {
+  flex: 1 1 auto;
+}
+
+li button {
+  width: auto;
+  margin-left: 10px;
+  padding: 6px 12px;
+}
+
+/* Área de busca e filtros */
 div > input[type="text"], div > select {
   margin-bottom: 10px;
 }
