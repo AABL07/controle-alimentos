@@ -119,3 +119,31 @@ li button {
 div > input[type="text"], div > select {
   margin-bottom: 10px;
 }
+/* Responsividade */
+@media (max-width: 600px) {
+  body {
+    padding: 1rem;
+  }
+
+  form {
+    padding: 10px;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  input, select {
+    width: 100%;
+  }
+
+  li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  li button {
+    margin-left: 0;
+    margin-top: 5px;
+  }
+}
