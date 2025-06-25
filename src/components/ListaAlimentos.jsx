@@ -179,6 +179,17 @@ export default function ListaAlimentos() {
                       />
                       <input
                         type="date"
+                        value={editForm.fabricacao}
+                        onChange={(e) =>
+                          setEditForm({
+                            ...editForm,
+                            fabricacao: e.target.value,
+                          })
+                        }
+                      />
+
+                      <input
+                        type="date"
                         value={editForm.validade}
                         onChange={(e) =>
                           setEditForm({
