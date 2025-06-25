@@ -8,6 +8,7 @@ import { supabase } from '../lib/supabase'
 export default function CadastroAlimento() {
   // Estados para armazenar os valores dos campos do formulário
   const [nome, setNome] = useState('')
+  const [fabricacao, setFabricacao] = useState('')
   const [validade, setValidade] = useState('')
   const [local, setLocal] = useState('')
   const [mensagem, setMensagem] = useState('')  // Estado para mensagens de sucesso ou erro
