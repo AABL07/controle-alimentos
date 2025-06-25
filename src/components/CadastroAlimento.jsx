@@ -1,126 +1,110 @@
-// Importa o hook useState do React para manipular estados locais
-import { useState } from "react";
+import { useState } from 'react'
+import { supabase } from '../lib/supabase'
 
-// Importa a configuração do cliente Supabase (conexão com o banco de dados)
-import { supabase } from "../lib/supabase";
-
-// Tabela com prazos típicos de validade (em dias) por alimento e local
+// Tabela com prazos padrão de validade por alimento e local (em dias)
 const prazosPadrao = {
-  "Presunto|Geladeira": 7,
-  "Carne|Freezer": 30,
-  "Leite|Geladeira": 5,
-  "Fruta|Geladeira": 7,
-  "Arroz|Armário": 180,
-  "Pão|Armário": 5,
-};
-
-// Calcula validade com base na data de fabricação + dias definidos
-function calcularValidadeAutomatica(nome, local, fabricacao) {
-  const chave = `${nome}|${local}`;
-  const dias = prazosPadrao[chave];
-
-  if (!dias || !fabricacao) return "";
-
-  const dataFab = new Date(fabricacao);
-  dataFab.setDate(dataFab.getDate() + dias);
-
-  return dataFab.toISOString().slice(0, 10); // Formato YYYY-MM-DD
+  'Presunto|Geladeira': 7,
+  'Carne|Freezer': 30,
+  'Leite|Geladeira': 5,
+  'Fruta|Geladeira': 7,
+  'Arroz|Armário': 180,
+  'Pão|Armário': 5
 }
 
-// Define o componente CadastroAlimento
-export default function CadastroAlimento() {
-  // Estados para armazenar os valores dos campos do formulário
-  const [nome, setNome] = useState("");
-  const [fabricacao, setFabricacao] = useState("");
-  const [validade, setValidade] = useState("");
-  const [local, setLocal] = useState("");
-  const [mensagem, setMensagem] = useState(""); // Estado para mensagens de sucesso ou erro
+// Função para calcular a validade com base na fabricação
+function calcularValidadeAutomatica(nome, local, fabricacao) {
+  const chave = `${nome}|${local}`
+  const dias = prazosPadrao[chave]
 
-  // Função que será executada ao enviar o formulário
+  if (!dias || !fabricacao) return ''
+  const data = new Date(fabricacao)
+  data.setDate(data.getDate() + dias)
+
+  return data.toISOString().slice(0, 10) // formato YYYY-MM-DD
+}
+
+// Componente principal
+export default function CadastroAlimento({ onAlimentoAdicionado }) {
+  const [nome, setNome] = useState('')
+  const [validade, setValidade] = useState('')
+  const [fabricacao, setFabricacao] = useState('')
+  const [local, setLocal] = useState('')
+  const [mensagem, setMensagem] = useState('')
+
   const handleSubmit = async (e) => {
-  e.preventDefault()
+    e.preventDefault()
 
-  // Se a validade não for preenchida, tenta calcular automaticamente
-  let validadeFinal = validade
-  if (!validadeFinal && fabricacao) {
-    validadeFinal = calcularValidadeAutomatica(nome, local, fabricacao)
-    if (!validadeFinal) {
-      setMensagem('Não foi possível sugerir validade automaticamente. Informe manualmente.')
-      return
+    // Calcula a validade automaticamente se estiver vazia
+    let validadeFinal = validade
+    if (!validadeFinal && fabricacao) {
+      validadeFinal = calcularValidadeAutomatica(nome, local, fabricacao)
+      if (!validadeFinal) {
+        setMensagem('Não foi possível sugerir validade automaticamente. Informe manualmente.')
+        return
+      }
+    }
+
+    // Insere no Supabase
+    const { data, error } = await supabase.from('alimentos').insert([
+      { nome, validade: validadeFinal, fabricacao, local }
+    ]).select()
+
+    if (error) {
+      console.error(error)
+      setMensagem('Erro ao cadastrar alimento.')
+    } else {
+      setMensagem('Alimento cadastrado com sucesso!')
+      setNome('')
+      setValidade('')
+      setFabricacao('')
+      setLocal('')
+
+      // Atualiza a lista no componente pai (App)
+      if (data && data.length > 0) {
+        onAlimentoAdicionado(data[0])
+      }
     }
   }
-
-  const { error } = await supabase.from('alimentos').insert([
-    { nome, validade: validadeFinal, fabricacao, local }
-  ])
-
-  if (error) {
-    console.error(error)
-    setMensagem('Erro ao cadastrar alimento.')
-  } else {
-    setMensagem('Alimento cadastrado com sucesso!')
-    setNome('')
-    setValidade('')
-    setFabricacao('')
-    setLocal('')
-  }
-}
-
 
   return (
     <div>
       <h2>Cadastrar Alimento</h2>
-
-      {/* Formulário de cadastro */}
       <form onSubmit={handleSubmit}>
-        {/* Campo: Nome do alimento */}
         <input
           type="text"
           placeholder="Nome do alimento"
           value={nome}
           onChange={(e) => setNome(e.target.value)}
           required
-        />
-        <br />
-        {/* Campo: Data de fabricação */}
+        /><br />
+
         <input
           type="date"
           placeholder="Data de fabricação"
           value={fabricacao}
           onChange={(e) => setFabricacao(e.target.value)}
           required
-        />
-        <br />
+        /><br />
 
-        {/* Campo: Data de validade */}
         <input
           type="date"
+          placeholder="Data de validade (opcional)"
           value={validade}
           onChange={(e) => setValidade(e.target.value)}
-          required
-        />
-        <br />
+        /><br />
 
-        {/* Campo: Local de armazenamento */}
         <input
           type="text"
           placeholder="Local (ex: Geladeira)"
           value={local}
           onChange={(e) => setLocal(e.target.value)}
           required
-        />
-        <br />
+        /><br />
 
-        {/* Botão de envio */}
         <button type="submit">Cadastrar</button>
       </form>
 
-      {/* Exibe a mensagem de sucesso ou erro, com cor condicional */}
-      {mensagem && (
-        <p style={{ color: mensagem.startsWith("Erro") ? "red" : "green" }}>
-          {mensagem}
-        </p>
-      )}
+      {mensagem && <p>{mensagem}</p>}
     </div>
-  );
+  )
 }
