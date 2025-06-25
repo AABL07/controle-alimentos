@@ -215,7 +215,8 @@ export default function ListaAlimentos() {
                   ) : (
                     // Modo normal (exibe dados com botões Editar/Excluir)
                     <>
-                      <strong>{alimento.nome}</strong> — vence em{" "}
+                      <strong>{alimento.nome}</strong> — fabricado em{" "}
+                      {formatarData(alimento.fabricacao)}, vence em{" "}
                       {formatarData(alimento.validade)} ({alimento.local})
                       <button
                         onClick={() => iniciarEdicao(alimento)}
