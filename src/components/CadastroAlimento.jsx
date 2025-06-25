@@ -14,6 +14,19 @@ const prazosPadrao = {
   "Pão|Armário": 5,
 };
 
+// Calcula validade com base na data de fabricação + dias definidos
+function calcularValidadeAutomatica(nome, local, fabricacao) {
+  const chave = `${nome}|${local}`;
+  const dias = prazosPadrao[chave];
+
+  if (!dias || !fabricacao) return "";
+
+  const dataFab = new Date(fabricacao);
+  dataFab.setDate(dataFab.getDate() + dias);
+
+  return dataFab.toISOString().slice(0, 10); // Formato YYYY-MM-DD
+}
+
 // Define o componente CadastroAlimento
 export default function CadastroAlimento() {
   // Estados para armazenar os valores dos campos do formulário
