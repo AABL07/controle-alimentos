@@ -38,31 +38,34 @@ export default function CadastroAlimento() {
 
   // Função que será executada ao enviar o formulário
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Evita o recarregamento da página ao enviar o form
+  e.preventDefault()
 
-    // Validação simples para evitar envio de campos vazios ou apenas com espaços
-    if (!nome.trim() || !local.trim() || !validade) {
-      setMensagem("Por favor, preencha todos os campos corretamente.");
-      return;
+  // Se a validade não for preenchida, tenta calcular automaticamente
+  let validadeFinal = validade
+  if (!validadeFinal && fabricacao) {
+    validadeFinal = calcularValidadeAutomatica(nome, local, fabricacao)
+    if (!validadeFinal) {
+      setMensagem('Não foi possível sugerir validade automaticamente. Informe manualmente.')
+      return
     }
+  }
 
-    // Insere os dados na tabela "alimentos" no Supabase
-    const { error } = await supabase
-      .from("alimentos")
-      .insert([{ nome, validade, fabricacao, local }]);
+  const { error } = await supabase.from('alimentos').insert([
+    { nome, validade: validadeFinal, fabricacao, local }
+  ])
 
-    // Tratamento de erros
-    if (error) {
-      console.error(error); // Exibe o erro no console do navegador
-      setMensagem(`Erro: ${error.message}`); // Mostra a mensagem de erro ao usuário
-    } else {
-      setMensagem("Alimento cadastrado com sucesso!"); // Mensagem de sucesso
-      // Limpa os campos do formulário
-      setNome("");
-      setValidade("");
-      setLocal("");
-    }
-  };
+  if (error) {
+    console.error(error)
+    setMensagem('Erro ao cadastrar alimento.')
+  } else {
+    setMensagem('Alimento cadastrado com sucesso!')
+    setNome('')
+    setValidade('')
+    setFabricacao('')
+    setLocal('')
+  }
+}
+
 
   return (
     <div>
