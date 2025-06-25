@@ -61,6 +61,7 @@ export default function ListaAlimentos() {
     setEditandoId(alimento.id);
     setEditForm({
       nome: alimento.nome,
+      fabricacao: alimento.fabricacao,
       validade: alimento.validade,
       local: alimento.local,
     });
