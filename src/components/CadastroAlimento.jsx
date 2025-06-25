@@ -16,6 +16,7 @@ export default function CadastroAlimento() {
   // Função que será executada ao enviar o formulário
   const handleSubmit = async (e) => {
     e.preventDefault(); // Evita o recarregamento da página ao enviar o form
+  
 
     // Validação simples para evitar envio de campos vazios ou apenas com espaços
     if (!nome.trim() || !local.trim() || !validade) {
@@ -26,7 +27,7 @@ export default function CadastroAlimento() {
     // Insere os dados na tabela "alimentos" no Supabase
     const { error } = await supabase
       .from("alimentos")
-      .insert([{ nome, validade, local }]);
+      .insert([{ nome, validade, fabricacao, local }]);
 
     // Tratamento de erros
     if (error) {
