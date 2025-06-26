@@ -23,7 +23,7 @@ function calcularValidadeAutomatica(nome, local, fabricacao) {
   return data.toISOString().slice(0, 10) // formato YYYY-MM-DD
 }
 
-// Componente principal
+// Componente de cadastro
 export default function CadastroAlimento({ onAlimentoAdicionado }) {
   const [nome, setNome] = useState('')
   const [validade, setValidade] = useState('')
@@ -31,10 +31,11 @@ export default function CadastroAlimento({ onAlimentoAdicionado }) {
   const [local, setLocal] = useState('')
   const [mensagem, setMensagem] = useState('')
 
+  // Envia os dados para o Supabase
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // Calcula a validade automaticamente se estiver vazia
+    // Calcula validade se não foi informada
     let validadeFinal = validade
     if (!validadeFinal && fabricacao) {
       validadeFinal = calcularValidadeAutomatica(nome, local, fabricacao)
@@ -44,10 +45,11 @@ export default function CadastroAlimento({ onAlimentoAdicionado }) {
       }
     }
 
-    // Insere no Supabase
-    const { data, error } = await supabase.from('alimentos').insert([
-      { nome, validade: validadeFinal, fabricacao, local }
-    ]).select()
+    // Insere alimento no Supabase
+    const { data, error } = await supabase
+      .from('alimentos')
+      .insert([{ nome, validade: validadeFinal, fabricacao, local }])
+      .select()
 
     if (error) {
       console.error(error)
@@ -59,7 +61,7 @@ export default function CadastroAlimento({ onAlimentoAdicionado }) {
       setFabricacao('')
       setLocal('')
 
-      // Atualiza a lista no componente pai (App)
+      // Atualiza lista no App
       if (data && data.length > 0) {
         onAlimentoAdicionado(data[0])
       }
@@ -70,6 +72,8 @@ export default function CadastroAlimento({ onAlimentoAdicionado }) {
     <div>
       <h2>Cadastrar Alimento</h2>
       <form onSubmit={handleSubmit}>
+
+        {/* Nome do alimento */}
         <input
           type="text"
           placeholder="Nome do alimento"
@@ -78,21 +82,28 @@ export default function CadastroAlimento({ onAlimentoAdicionado }) {
           required
         /><br />
 
-        <input
-          type="date"
-          placeholder="Data de fabricação"
-          value={fabricacao}
-          onChange={(e) => setFabricacao(e.target.value)}
-          required
-        /><br />
+        {/* Data de fabricação */}
+        <label>
+          <span>Data de fabricação:</span><br />
+          <input
+            type="date"
+            value={fabricacao}
+            onChange={(e) => setFabricacao(e.target.value)}
+            required
+          />
+        </label><br />
 
-        <input
-          type="date"
-          placeholder="Data de validade (opcional)"
-          value={validade}
-          onChange={(e) => setValidade(e.target.value)}
-        /><br />
+        {/* Data de validade (opcional) */}
+        <label>
+          <span>Data de validade (opcional):</span><br />
+          <input
+            type="date"
+            value={validade}
+            onChange={(e) => setValidade(e.target.value)}
+          />
+        </label><br />
 
+        {/* Local de armazenamento */}
         <input
           type="text"
           placeholder="Local (ex: Geladeira)"
@@ -101,9 +112,11 @@ export default function CadastroAlimento({ onAlimentoAdicionado }) {
           required
         /><br />
 
+        {/* Botão */}
         <button type="submit">Cadastrar</button>
       </form>
 
+      {/* Mensagem de sucesso ou erro */}
       {mensagem && <p>{mensagem}</p>}
     </div>
   )
