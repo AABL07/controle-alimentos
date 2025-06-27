@@ -1,101 +1,72 @@
-// Importa os hooks useEffect e useState do React
-import { useEffect, useState } from "react";
+import { useState } from "react"
+import { supabase } from "../lib/supabase"
 
-// Importa a conexão com o Supabase
-import { supabase } from "../lib/supabase";
-
-// Componente principal
-
-export default function ListaAlimentos() {
-  // Estados principais do componente
-  const [alimentos, setAlimentos] = useState([]); // Lista de alimentos
-  const [carregando, setCarregando] = useState(true); // Controle de loading
-  const [busca, setBusca] = useState(""); // Texto de busca
-  const [filtroLocal, setFiltroLocal] = useState(""); // Filtro por local
-  const [editandoId, setEditandoId] = useState(null); // ID do item em edição
+// Componente que exibe a lista de alimentos
+export default function ListaAlimentos({ alimentos, setAlimentos }) {
+  const [busca, setBusca] = useState("")
+  const [filtroLocal, setFiltroLocal] = useState("")
+  const [editandoId, setEditandoId] = useState(null)
   const [editForm, setEditForm] = useState({
-    // Dados do formulário de edição
     nome: "",
     fabricacao: "",
     validade: "",
     local: "",
-  });
+  })
 
-  // Função auxiliar: formata a data no padrão brasileiro (DD/MM/AAAA)
+  // Formata data para DD/MM/AAAA
   const formatarData = (dataStr) => {
-    const partes = dataStr.split("-");
-    return `${partes[2]}/${partes[1]}/${partes[0]}`;
-  };
+    const partes = dataStr.split("-")
+    return `${partes[2]}/${partes[1]}/${partes[0]}`
+  }
 
-  // Função auxiliar: calcula os dias restantes até a validade
-  // Adiciona 'T12:00:00' para evitar problemas com fuso horário (UTC vs local)
+  // Calcula dias restantes até a validade
   const calcularDiasRestantes = (dataStr) => {
-    const validade = new Date(dataStr + "T12:00:00");
-    const hoje = new Date();
-    const diffTime = validade - hoje;
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  };
+    const validade = new Date(dataStr + "T12:00:00")
+    const hoje = new Date()
+    const diffTime = validade - hoje
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  }
 
-  // useEffect: busca os alimentos do Supabase ao carregar a tela
-  useEffect(() => {
-    const buscarAlimentos = async () => {
-      const { data, error } = await supabase
-        .from("alimentos")
-        .select("*")
-        .order("validade", { ascending: true }); // ordena pela data mais próxima
-
-      if (error) {
-        console.error("Erro ao buscar alimentos:", error);
-      } else {
-        setAlimentos(data);
-      }
-
-      setCarregando(false);
-    };
-
-    buscarAlimentos();
-  }, []);
-
-  // Inicia o modo de edição com os dados atuais do alimento
+  // Inicia o modo de edição
   const iniciarEdicao = (alimento) => {
-    setEditandoId(alimento.id);
+    setEditandoId(alimento.id)
     setEditForm({
       nome: alimento.nome,
       fabricacao: alimento.fabricacao,
       validade: alimento.validade,
       local: alimento.local,
-    });
-  };
+    })
+  }
 
-  // Salva a edição no Supabase e atualiza o item na lista local
+  // Salva edições no Supabase e atualiza a lista local
   const salvarEdicao = async (id) => {
     const { error } = await supabase
       .from("alimentos")
       .update(editForm)
-      .eq("id", id);
+      .eq("id", id)
 
     if (!error) {
       setAlimentos((prev) =>
         prev.map((a) => (a.id === id ? { ...a, ...editForm } : a))
-      );
-      setEditandoId(null);
+      )
+      setEditandoId(null)
     }
-  };
+  }
 
-  // Exclui um alimento da base de dados e remove da lista
+  // Exclui alimento do Supabase e atualiza lista local
   const excluirAlimento = async (id) => {
-    const { error } = await supabase.from("alimentos").delete().eq("id", id);
+    const { error } = await supabase.from("alimentos").delete().eq("id", id)
 
     if (!error) {
-      setAlimentos((prev) => prev.filter((a) => a.id !== id));
+      setAlimentos((prev) => prev.filter((a) => a.id !== id))
     }
-  };
+  }
 
   return (
     <div style={{ marginTop: "40px" }}>
       <h2>Lista de Alimentos</h2>
 
-      {/* Área de filtro por nome e local */}
+      {/* 🔍 Filtros de busca e local */}
       <div style={{ marginBottom: "20px" }}>
         <input
           type="text"
@@ -116,11 +87,10 @@ export default function ListaAlimentos() {
           <option value="Armário">Armário</option>
         </select>
 
-        {/* Botão para limpar os filtros aplicados */}
         <button
           onClick={() => {
-            setBusca("");
-            setFiltroLocal("");
+            setBusca("")
+            setFiltroLocal("")
           }}
           style={{
             marginLeft: "10px",
@@ -135,40 +105,30 @@ export default function ListaAlimentos() {
         </button>
       </div>
 
-      {/* Exibe mensagem de carregamento ou lista filtrada */}
-      {carregando ? (
-        <p>Carregando...</p>
-      ) : alimentos.length === 0 ? (
+      {/* 🧾 Lista de alimentos filtrada */}
+      {alimentos.length === 0 ? (
         <p>Nenhum alimento cadastrado.</p>
       ) : (
         <ul>
-          {/* Filtra os alimentos por nome e local */}
           {alimentos
             .filter((alimento) => {
               const nomeIncluiBusca = alimento.nome
                 .toLowerCase()
-                .includes(busca.toLowerCase());
+                .includes(busca.toLowerCase())
               const localBate =
-                filtroLocal === "" || alimento.local === filtroLocal;
-              return nomeIncluiBusca && localBate;
+                filtroLocal === "" || alimento.local === filtroLocal
+              return nomeIncluiBusca && localBate
             })
-
-            // Renderiza cada item da lista
             .map((alimento) => {
-              const diasRestantes = calcularDiasRestantes(alimento.validade);
+              const diasRestantes = calcularDiasRestantes(alimento.validade)
+              let estilo = {}
 
-              // Define o estilo com base no vencimento
-              let estilo = {};
-              if (diasRestantes < 0) {
-                estilo = { color: "red" }; // alimento vencido
-              } else if (diasRestantes <= 3) {
-                estilo = { color: "orange" }; // alimento perto de vencer
-              }
+              if (diasRestantes < 0) estilo = { color: "red" }
+              else if (diasRestantes <= 3) estilo = { color: "orange" }
 
               return (
                 <li key={alimento.id} style={estilo}>
                   {editandoId === alimento.id ? (
-                    // Modo de edição (inputs para alterar os dados)
                     <div>
                       <input
                         type="text"
@@ -187,7 +147,6 @@ export default function ListaAlimentos() {
                           })
                         }
                       />
-
                       <input
                         type="date"
                         value={editForm.validade}
@@ -213,7 +172,6 @@ export default function ListaAlimentos() {
                       </button>
                     </div>
                   ) : (
-                    // Modo normal (exibe dados com botões Editar/Excluir)
                     <>
                       <strong>{alimento.nome}</strong> — fabricado em{" "}
                       {formatarData(alimento.fabricacao)}, vence em{" "}
@@ -233,10 +191,10 @@ export default function ListaAlimentos() {
                     </>
                   )}
                 </li>
-              );
+              )
             })}
         </ul>
       )}
     </div>
-  );
+  )
 }
