@@ -1,29 +1,31 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 
-// Tabela com prazos padrão de validade por alimento e local (em dias)
-const prazosPadrao = {
-  'Presunto|Geladeira': 7,
-  'Carne|Freezer': 30,
-  'Leite|Geladeira': 5,
-  'Fruta|Geladeira': 7,
-  'Arroz|Armário': 180,
-  'Pão|Armário': 5
+// Simulação de IA: estima a validade com base em regras "inteligentes"
+function estimarValidadeComIA(nome, local, fabricacao) {
+  // Base de dados simplificada para simular conhecimento de IA
+  const base = [
+    { nome: 'presunto', local: 'geladeira', dias: 7 },
+    { nome: 'carne', local: 'freezer', dias: 30 },
+    { nome: 'leite', local: 'geladeira', dias: 5 },
+    { nome: 'fruta', local: 'geladeira', dias: 6 },
+    { nome: 'arroz', local: 'armário', dias: 180 },
+    { nome: 'pão', local: 'armário', dias: 5 }
+  ]
+
+  const n = nome.trim().toLowerCase()
+  const l = local.trim().toLowerCase()
+
+  const regra = base.find(r => n.includes(r.nome) && l.includes(r.local))
+  if (!regra) return ''
+
+  const dataFab = new Date(fabricacao)
+  dataFab.setDate(dataFab.getDate() + regra.dias)
+
+  return dataFab.toISOString().slice(0, 10) // Formato: YYYY-MM-DD
 }
 
-// Função para calcular a validade com base na fabricação
-function calcularValidadeAutomatica(nome, local, fabricacao) {
-  const chave = `${nome}|${local}`
-  const dias = prazosPadrao[chave]
-
-  if (!dias || !fabricacao) return ''
-  const data = new Date(fabricacao)
-  data.setDate(data.getDate() + dias)
-
-  return data.toISOString().slice(0, 10) // formato YYYY-MM-DD
-}
-
-// Componente de cadastro
+// Componente principal de cadastro
 export default function CadastroAlimento({ onAlimentoAdicionado }) {
   const [nome, setNome] = useState('')
   const [validade, setValidade] = useState('')
@@ -31,21 +33,20 @@ export default function CadastroAlimento({ onAlimentoAdicionado }) {
   const [local, setLocal] = useState('')
   const [mensagem, setMensagem] = useState('')
 
-  // Envia os dados para o Supabase
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // Calcula validade se não foi informada
+    // Calcula validade automaticamente se não for informada
     let validadeFinal = validade
     if (!validadeFinal && fabricacao) {
-      validadeFinal = calcularValidadeAutomatica(nome, local, fabricacao)
+      validadeFinal = estimarValidadeComIA(nome, local, fabricacao)
       if (!validadeFinal) {
-        setMensagem('Não foi possível sugerir validade automaticamente. Informe manualmente.')
+        setMensagem('Não foi possível estimar a validade. Informe manualmente.')
         return
       }
     }
 
-    // Insere alimento no Supabase
+    // Envia para Supabase
     const { data, error } = await supabase
       .from('alimentos')
       .insert([{ nome, validade: validadeFinal, fabricacao, local }])
@@ -61,7 +62,7 @@ export default function CadastroAlimento({ onAlimentoAdicionado }) {
       setFabricacao('')
       setLocal('')
 
-      // Atualiza lista no App
+      // Atualiza a lista no App
       if (data && data.length > 0) {
         onAlimentoAdicionado(data[0])
       }
@@ -103,7 +104,7 @@ export default function CadastroAlimento({ onAlimentoAdicionado }) {
           />
         </label><br />
 
-        {/* Local de armazenamento */}
+        {/* Local */}
         <input
           type="text"
           placeholder="Local (ex: Geladeira)"
@@ -116,7 +117,7 @@ export default function CadastroAlimento({ onAlimentoAdicionado }) {
         <button type="submit">Cadastrar</button>
       </form>
 
-      {/* Mensagem de sucesso ou erro */}
+      {/* Mensagem de retorno */}
       {mensagem && <p>{mensagem}</p>}
     </div>
   )
