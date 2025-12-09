@@ -375,17 +375,22 @@ Trello para organização visual de projetos
 
 📱 Screenshots
 Desktop - Tema Claro
-```text
-[Adicione screenshot do desktop em tema claro aqui]
-```
+
+
+<img width="73" height="20" alt="image" src="https://github.com/user-attachments/assets/92205edc-7900-47fd-8e5e-ef11d0f0a90f" />
+
+
 Desktop - Tema Escuro
-```text
-[Adicione screenshot do desktop em tema escuro aqui]
-```
+
+
+<img width="73" height="20" alt="image" src="https://github.com/user-attachments/assets/2660f912-fa8a-4c26-826e-3d92d93dc2fb" />
+
+  
 Mobile
-```text
-[Adicione screenshot do mobile aqui]
-```
+
+<img width="73" height="20" alt="image" src="https://github.com/user-attachments/assets/5f3b0e90-2f6c-4bd8-9cc4-bb207ce35012" />
+
+
 
 🌍 ODS (Objetivos de Desenvolvimento Sustentável)
 
