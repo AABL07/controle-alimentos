@@ -441,30 +441,31 @@ Regular security audits com ferramentas como Snyk
 
 📚 Referências e Recursos
 
-Documentação Oficial
-React Documentation
+[Documentação Oficial](https://react.dev/)
 
-Vite Guide
+[Vite Guide](https://vitejs.dev/)
 
-Supabase Docs
+[Supabase Docs](https://supabase.com/docs)
 
-Tailwind CSS
+[Tailwind CSS](https://tailwindcss.com/docs)
 
-Vercel Deployment
+[Vercel Deployment](https://vercel.com/docs)
 
 Artigos e Guias
-WCAG 2.1 Guidelines
 
-REST API Best Practices
+[WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
 
-Web Performance Optimization
+[REST API Best Practices](https://restfulapi.net/)
+
+[Web Performance Optimization](https://web.dev/performance/)
 
 Comunidades
-React Community
 
-JavaScript Brasil
+[React Community](https://react.dev/community)
 
-Dev.to
+[JavaScript Brasil](https://braziljs.org/)
+
+[Dev.to](https://dev.to/)
 
 📄 Licença
 
@@ -486,29 +487,31 @@ Mas deve:
 
 🤝 Contribuindo
 
+
 Contribuições são bem-vindas! Se encontrou um bug ou tem uma sugestão de melhoria:
 
-Faça um Fork do projeto
+✅Faça um Fork do projeto
 
-Crie uma branch para sua feature (git checkout -b feature/MinhaFeature)
+✅Crie uma branch para sua feature (git checkout -b feature/MinhaFeature)
 
-Commit suas mudanças (git commit -m 'Adiciona MinhaFeature')
+✅Commit suas mudanças (git commit -m 'Adiciona MinhaFeature')
 
-Push para a branch (git push origin feature/MinhaFeature)
+✅Push para a branch (git push origin feature/MinhaFeature)
 
-Abra um Pull Request
+✅Abra um Pull Request
 
-Padrões de Código
+✅Padrões de Código
 
-Siga ESLint configuration
+✅Siga ESLint configuration
 
-Use Prettier para formatação
+✅Use Prettier para formatação
 
-Escreva commits descritivos
+✅Escreva commits descritivos
 
-Documente mudanças significativas
+✅Documente mudanças significativas
 
 👨‍💻 Desenvolvedor
+
 Adriano Antunes Bueno Lucio
 Desenvolvedor Full Stack | PCD (TEA)
 
@@ -521,6 +524,7 @@ Desenvolvedor Full Stack | PCD (TEA)
 🌐 Portfolio: controle-alimentos.vercel.app
 
 📞 Suporte
+
 Encontrou um problema? Tem uma dúvida?
 
 📝 Issues: GitHub Issues
@@ -530,6 +534,7 @@ Encontrou um problema? Tem uma dúvida?
 📧 Email: adrianojunior577@gmail.com
 
 🎓 Documentação Acadêmica
+
 Este projeto foi desenvolvido como Atividade Extensionista Oficial no curso de Tecnólogo em Análise e Desenvolvimento de Sistemas (UNINTER).
 
 Disciplina: Atividade Extensionista - Tecnologia Aplicada à Inclusão Digital
@@ -543,12 +548,17 @@ Documentação oficial disponível em: UNINTER
 <div align="center">
     
 ⭐ Gostou do Projeto? Deixe uma Star! ⭐
+
 Desenvolvido individualmente por Adriano com ❤️
 
-React
-Vite
-Supabase
-Vercel
-Tailwind
+<img width="59" height="20" alt="image" src="https://github.com/user-attachments/assets/4cc84610-4a8f-4cbb-ad53-2be9352032ac" />
+
+<img width="49" height="20" alt="image" src="https://github.com/user-attachments/assets/82055228-4e6c-41ac-8bee-b9dd1b26c17c" />
+
+<img width="81" height="20" alt="image" src="https://github.com/user-attachments/assets/ceab346d-0f2a-44b5-8138-9219558c4643" />
+
+<img width="63" height="20" alt="image" src="https://github.com/user-attachments/assets/c106c17c-6ad5-4b62-85d7-a70b1d709613" />
+
+<img width="73" height="20" alt="image" src="https://github.com/user-attachments/assets/ebb938c1-ce69-41ad-b541-7999f971fe57" />
 
 </div>
